@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-//import java.util.logging.*;
-//import javax.swing.ImageIcon;
-//import javax.swing.JOptionPane;
 
 /**
  *
@@ -40,9 +37,6 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        btnExit = new Frame.CButton();
-        cButton7 = new Frame.CButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         pnlBedList = new javax.swing.JList<>();
@@ -67,31 +61,6 @@ public class MainFrame extends javax.swing.JFrame {
         jLabelMenu = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jPanel1.setBackground(new java.awt.Color(102, 255, 102));
-
-        btnExit.setText("cButton6");
-
-        cButton7.setText("cButton7");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(cButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(389, 389, 389))
-        );
 
         jPanel2.setBackground(new java.awt.Color(153, 255, 153));
 
@@ -285,15 +254,13 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -332,12 +299,6 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void pnlBedListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlBedListMouseClicked
         // TODO add your handling code here:
-        if(evt.getClickCount() == 2){ // event klik 2x untuk masuk ke TaskFrame
-//            setLokasi();
-//            TaskFrame task = new TaskFrame(dataIdKategori.get(pnlKategori.getSelectedIndex()));
-//            task.setVisible(true);
-//            this.dispose();
-        }
         if(!pnlBedList.isSelectionEmpty() && evt.getButton() == 1){ // untuk menampilkan tanggal dan deskripsi
             try {
                 int index = pnlBedList.getSelectedIndex();
@@ -434,7 +395,9 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btnResultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResultActionPerformed
         // TODO add your handling code here:
-        MetodeWP wp = new MetodeWP(dataSpringBed);
+        ResultFrame resutlFrame = new ResultFrame();
+        resutlFrame.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnResultActionPerformed
 
     /**
@@ -472,11 +435,9 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Frame.CButton btnDelete;
-    private Frame.CButton btnExit;
     private Frame.CButton btnInsert;
     private Frame.CButton btnResult;
     private Frame.CButton btnUpdate;
-    private Frame.CButton cButton7;
     private javax.swing.JLabel jLabelBahan;
     private javax.swing.JLabel jLabelFiturTambah;
     private javax.swing.JLabel jLabelGaransi;
@@ -485,7 +446,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelLebar;
     private javax.swing.JLabel jLabelMenu;
     private javax.swing.JLabel jLabelWarna;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextFieldBahan;

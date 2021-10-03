@@ -6,7 +6,8 @@ package Frame;
  * @author Laden
  */
 public class BobotPenilaian {
-   private int harga,bahan,keempukan,warna,lebar,fitur,garansi,nilaiV;
+   private int harga,bahan,keempukan,warna,lebar,fitur,garansi;
+   private double nilaiV;
    private String nama;
 
     public BobotPenilaian(String nama,int harga ,int bahan, int keempukan, int warna, int lebar, int fitur, int garansi) {
@@ -29,11 +30,11 @@ public class BobotPenilaian {
     }
 
     
-    public int getNilaiV() {
+    public double getNilaiV() {
         return nilaiV;
     }
 
-    public void setNilaiV(int nilaiV) {
+    public void setNilaiV(double nilaiV) {
         this.nilaiV = nilaiV;
     }
 
