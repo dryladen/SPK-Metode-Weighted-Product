@@ -6,7 +6,37 @@ package Frame;
  * @author Laden
  */
 public class BobotPenilaian {
-   private int harga,bahan,keempukan,warna,lebar,fitur,garansi;
+   private int harga,bahan,keempukan,warna,lebar,fitur,garansi,nilaiV;
+   private String nama;
+
+    public BobotPenilaian(String nama,int harga ,int bahan, int keempukan, int warna, int lebar, int fitur, int garansi) {
+        this.nama = nama;
+        this.harga = harga;
+        this.bahan = bahan;
+        this.keempukan = keempukan;
+        this.warna = warna;
+        this.lebar = lebar;
+        this.fitur = fitur;
+        this.garansi = garansi;
+    }
+    
+    public String getNama() {
+        return nama;
+    }
+
+    public void setNama(String nama) {
+        this.nama = nama;
+    }
+
+    
+    public int getNilaiV() {
+        return nilaiV;
+    }
+
+    public void setNilaiV(int nilaiV) {
+        this.nilaiV = nilaiV;
+    }
+
 
     public int getHarga() {
         return harga;

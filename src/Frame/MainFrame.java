@@ -3,6 +3,9 @@ package Frame;
 import javax.swing.DefaultListModel;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 //import java.util.logging.*;
 //import javax.swing.ImageIcon;
 //import javax.swing.JOptionPane;
@@ -14,8 +17,8 @@ import java.util.ArrayList;
 public class MainFrame extends javax.swing.JFrame {
 
     private final DefaultListModel modelSpringBed;
-    private final ArrayList<String> dataIdKategori = new ArrayList();
-    private final ArrayList<BobotPenilaian> dataBobotPenilaian = new ArrayList();
+    private final ArrayList<String> dataIdSpringBed = new ArrayList();
+    private final ArrayList<BobotPenilaian> dataSpringBed = new ArrayList();
     private PreparedStatement pst;
     private ResultSet result;
     private Statement stm;
@@ -24,6 +27,8 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         modelSpringBed = new DefaultListModel();
+        pnlBedList.setModel(modelSpringBed);
+        getData();
     }
 
     /**
@@ -90,6 +95,12 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(153, 255, 153));
 
+        pnlBedList.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "List Spring Bed", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Yu Gothic Medium", 1, 14))); // NOI18N
+        pnlBedList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlBedListMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(pnlBedList);
 
         btnUpdate.setText("UPDATE");
@@ -98,32 +109,41 @@ public class MainFrame extends javax.swing.JFrame {
 
         btnResult.setText("RESULT");
 
-        jTextFieldHarga.setText("jTextField1");
         jTextFieldHarga.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldHargaActionPerformed(evt);
             }
         });
 
-        jTextFieldBahan.setText("jTextField2");
+        jTextFieldBahan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldBahanActionPerformed(evt);
+            }
+        });
 
-        jTextFieldKeempukan.setText("jTextField3");
         jTextFieldKeempukan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldKeempukanActionPerformed(evt);
             }
         });
 
-        jTextFieldWarna.setText("jTextField4");
         jTextFieldWarna.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldWarnaActionPerformed(evt);
             }
         });
 
-        jTextFieldLebar.setText("jTextField5");
+        jTextFieldLebar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldLebarActionPerformed(evt);
+            }
+        });
 
-        jTextFieldFiturTambahan.setText("jTextField6");
+        jTextFieldFiturTambahan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldFiturTambahanActionPerformed(evt);
+            }
+        });
 
         jLabelHarga.setText("HARGA");
 
@@ -145,8 +165,6 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         jLabelGaransi.setText("MEMILIKI GARANSI");
-
-        jTextFieldGaransi.setText("jTextField7");
 
         jLabelMenu.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabelMenu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -280,7 +298,77 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         // TODO add your handling code here:
+        InputFrame inputFrame = new InputFrame();
+        inputFrame.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnInsertActionPerformed
+
+    private void jTextFieldBahanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBahanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldBahanActionPerformed
+
+    private void jTextFieldLebarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldLebarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldLebarActionPerformed
+
+    private void jTextFieldFiturTambahanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldFiturTambahanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldFiturTambahanActionPerformed
+
+    private void pnlBedListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlBedListMouseClicked
+        // TODO add your handling code here:
+        if(evt.getClickCount() == 2){ // event klik 2x untuk masuk ke TaskFrame
+//            setLokasi();
+//            TaskFrame task = new TaskFrame(dataIdKategori.get(pnlKategori.getSelectedIndex()));
+//            task.setVisible(true);
+//            this.dispose();
+        }
+        if(!pnlBedList.isSelectionEmpty() && evt.getButton() == 1){ // untuk menampilkan tanggal dan deskripsi
+            try {
+                int index = pnlBedList.getSelectedIndex();
+                String sql = "SELECT * FROM dataSpringBed WHERE id=?";
+                Connection cn = koneksi.getKoneksi();
+                pst = cn.prepareStatement(sql);
+                pst.setString(1, dataIdSpringBed.get(index));
+                result = pst.executeQuery();
+                String harga = "0",bahan = "0",keempukan = "0",warna = "0",lebar = "0",fitur = "0",garansi = "0",nilaiV = "0";
+                jTextFieldHarga.setText("");
+                jTextFieldBahan.setText("");
+                jTextFieldKeempukan.setText("");
+                jTextFieldWarna.setText("");
+                jTextFieldLebar.setText("");
+                jTextFieldFiturTambahan.setText("");
+                jTextFieldGaransi.setText("");
+                while(result.next()){
+                    harga = result.getString(3);
+                    bahan = result.getString(4);
+                    keempukan = result.getString(5);
+                    warna = result.getString(6);
+                    lebar = result.getString(7);
+                    fitur = result.getString(8);
+                    garansi = result.getString(9);
+                    
+                }
+                jTextFieldHarga.setText(harga);
+                jTextFieldKeempukan.setText(keempukan);
+                jTextFieldBahan.setText(bahan);
+                jTextFieldWarna.setText(warna);
+                jTextFieldLebar.setText(lebar);
+                jTextFieldFiturTambahan.setText(fitur);
+                jTextFieldGaransi.setText(garansi);
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(pnlBedList, ex);
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    result.close();
+                    pst.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } 
+        }
+    }//GEN-LAST:event_pnlBedListMouseClicked
 
     /**
      * @param args the command line arguments
@@ -310,10 +398,8 @@ public class MainFrame extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainFrame().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MainFrame().setVisible(true);
         });
     }
 
@@ -344,4 +430,29 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldWarna;
     private javax.swing.JList<String> pnlBedList;
     // End of variables declaration//GEN-END:variables
+    private void getData(){
+        try{
+            modelSpringBed.removeAllElements();
+            dataSpringBed.clear();
+            Connection cn = koneksi.getKoneksi();
+            stm = cn.createStatement();
+            result = stm.executeQuery("SELECT * FROM dataSpringBed");
+            while(result.next()){
+                modelSpringBed.addElement(result.getString(2));
+                dataIdSpringBed.add(result.getString(1));
+                dataSpringBed.add(new BobotPenilaian(result.getString(2),result.getInt(3),result.getInt(4),result.getInt(5),result.getInt(6),result.getInt(7), result.getInt(8), result.getInt(9)));
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(pnlBedList, "Error : "+ ex);
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                result.close();
+                stm.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(pnlBedList, "Error set data : "+ ex);
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } 
+    }
 }
