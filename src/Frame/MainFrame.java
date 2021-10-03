@@ -118,6 +118,11 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         btnResult.setText("RESULT");
+        btnResult.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResultActionPerformed(evt);
+            }
+        });
 
         jTextFieldHarga.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -426,6 +431,11 @@ public class MainFrame extends javax.swing.JFrame {
             } 
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnResultActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResultActionPerformed
+        // TODO add your handling code here:
+        MetodeWP wp = new MetodeWP(dataSpringBed);
+    }//GEN-LAST:event_btnResultActionPerformed
 
     /**
      * @param args the command line arguments
