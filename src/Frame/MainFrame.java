@@ -104,8 +104,18 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(pnlBedList);
 
         btnUpdate.setText("UPDATE");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnDelete.setText("DELETE");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnResult.setText("RESULT");
 
@@ -355,7 +365,11 @@ public class MainFrame extends javax.swing.JFrame {
                 jTextFieldWarna.setText(warna);
                 jTextFieldLebar.setText(lebar);
                 jTextFieldFiturTambahan.setText(fitur);
-                jTextFieldGaransi.setText(garansi);
+                if(garansi.equals("0")){
+                    jTextFieldGaransi.setText("Tidak ada"); 
+                } else {
+                    jTextFieldGaransi.setText("Ada"); 
+                }
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(pnlBedList, ex);
                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -369,6 +383,49 @@ public class MainFrame extends javax.swing.JFrame {
             } 
         }
     }//GEN-LAST:event_pnlBedListMouseClicked
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        if(pnlBedList.isSelectionEmpty()){
+            JOptionPane.showMessageDialog(pnlBedList, "Pilih data dulu");
+        } else {
+            InputFrame input = new InputFrame(true,dataIdSpringBed.get(pnlBedList.getSelectedIndex()));
+            input.setVisible(true);
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        if(pnlBedList.isSelectionEmpty()){ // message jika tidak ada kategori yang di select
+            JOptionPane.showMessageDialog(pnlBedList, "Pilih data dulu");
+        } else {
+            try {
+                // menghapus item kategori
+                String index = dataIdSpringBed.get(pnlBedList.getSelectedIndex());
+                String sql = "DELETE FROM dataSpringBed WHERE id=?";
+                Connection cn = koneksi.getKoneksi();
+                pst = cn.prepareStatement(sql);
+                pst.setString(1, index);
+                pst.execute();
+                // menghapus item kegiatan
+                sql = "DELETE FROM dataSpringBed WHERE id=?";
+                PreparedStatement pst1 = cn.prepareStatement(sql);
+                pst1.setString(1, index);
+                pst1.execute();
+                dataIdSpringBed.remove(index);
+                getData();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(pnlBedList, "Gagal menghapus data : "+ex);
+            } finally {
+                try {
+                    pst.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } 
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
      * @param args the command line arguments

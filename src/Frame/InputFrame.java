@@ -1,23 +1,41 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Frame;
 
+import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 /**
  *
  * @author Laden
  */
 public class InputFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form InputFrame
-     */
+    private final Koneksi koneksi = new Koneksi();
+    private boolean isDataUpdate = false;
+    private String idSpringBed = null;
+    private PreparedStatement pst;
+    private ResultSet result;
+    private Statement stm;
+    private String sql = null;
+    
     public InputFrame() {
         initComponents();
     }
-
+    
+    public InputFrame(String idKategori) {
+        initComponents();
+        this.idSpringBed = idKategori;
+    }
+    
+    public InputFrame(boolean dataUpdate, String idSpringBed) {
+        initComponents();
+        this.isDataUpdate = dataUpdate;
+        this.idSpringBed = idSpringBed;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,55 +46,73 @@ public class InputFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        cButton1 = new Frame.CButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        jComboBox5 = new javax.swing.JComboBox<>();
-        jComboBox6 = new javax.swing.JComboBox<>();
+        jTextFieldNama = new javax.swing.JTextField();
+        jLabelNama = new javax.swing.JLabel();
+        jLabelHarga = new javax.swing.JLabel();
+        jLabelBahan = new javax.swing.JLabel();
+        jLabelKeempukan = new javax.swing.JLabel();
+        jLabelWarna = new javax.swing.JLabel();
+        jLabelLebar = new javax.swing.JLabel();
+        jLabelFitur = new javax.swing.JLabel();
+        btnConfirm = new Frame.CButton();
+        jComboBoxBahan = new javax.swing.JComboBox<>();
+        jComboBoxKeempukan = new javax.swing.JComboBox<>();
+        jComboBoxWarna = new javax.swing.JComboBox<>();
+        jComboBoxLebar = new javax.swing.JComboBox<>();
+        jComboBoxFitur = new javax.swing.JComboBox<>();
+        btnCancel = new Frame.CButton();
+        jTextFieldHarga = new javax.swing.JTextField();
+        jLabelGaransi = new javax.swing.JLabel();
+        jComboBoxGaransi = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(153, 255, 153));
 
-        jTextField1.setText("jTextField1");
+        jLabelNama.setText("NAMA");
 
-        jLabel1.setText("jLabel1");
+        jLabelHarga.setText("HARGA");
 
-        jLabel2.setText("jLabel2");
+        jLabelBahan.setText("KECOCOKAN BAHAN");
 
-        jLabel3.setText("jLabel3");
+        jLabelKeempukan.setText("KECOCOKAN KEEMPUKAN");
 
-        jLabel4.setText("jLabel4");
+        jLabelWarna.setText("KECOCOKAN WARNA");
 
-        jLabel5.setText("jLabel5");
+        jLabelLebar.setText("LEBAR");
 
-        jLabel6.setText("jLabel6");
+        jLabelFitur.setText("KECOCOKAN FITUR");
 
-        jLabel8.setText("jLabel6");
+        btnConfirm.setText("Confirm");
+        btnConfirm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmActionPerformed(evt);
+            }
+        });
 
-        cButton1.setText("cButton1");
+        jComboBoxBahan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5" }));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5" }));
+        jComboBoxKeempukan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5" }));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5" }));
+        jComboBoxWarna.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5" }));
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5" }));
+        jComboBoxLebar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5" }));
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5" }));
+        jComboBoxFitur.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5" }));
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5" }));
+        btnCancel.setText("Cancel");
+        btnCancel.setMaximumSize(new java.awt.Dimension(69, 23));
+        btnCancel.setMinimumSize(new java.awt.Dimension(69, 23));
+        btnCancel.setPreferredSize(new java.awt.Dimension(69, 23));
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5" }));
+        jLabelGaransi.setText("GARANSI");
+
+        jComboBoxGaransi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tidak ada", "Ada" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -84,28 +120,32 @@ public class InputFrame extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel5)
-                    .addComponent(jComboBox4, 0, 248, Short.MAX_VALUE)
-                    .addComponent(jComboBox5, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox6, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jComboBoxKeempukan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBoxBahan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabelNama, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelHarga, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelBahan, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelKeempukan, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldNama, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelFitur)
+                            .addComponent(jLabelLebar)
+                            .addComponent(jLabelWarna)
+                            .addComponent(jComboBoxWarna, 0, 248, Short.MAX_VALUE)
+                            .addComponent(jComboBoxLebar, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBoxFitur, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabelGaransi)
+                            .addComponent(jComboBoxGaransi, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(18, 18, 18))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -113,40 +153,48 @@ public class InputFrame extends javax.swing.JFrame {
                 .addGap(55, 55, 55)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(jLabelNama)
                         .addGap(5, 5, 5)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextFieldNama, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)
+                        .addComponent(jLabelHarga)
+                        .addGap(44, 44, 44)
+                        .addComponent(jLabelBahan)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jComboBoxBahan, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(19, 19, 19)
-                                .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jComboBoxWarna, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(26, 26, 26)
-                                .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jComboBoxLebar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextFieldHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(20, 20, 20))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
+                                .addComponent(jLabelWarna)
                                 .addGap(43, 43, 43)
-                                .addComponent(jLabel6)
+                                .addComponent(jLabelLebar)
                                 .addGap(44, 44, 44)
-                                .addComponent(jLabel8)))
+                                .addComponent(jLabelFitur)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jComboBoxFitur, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(99, 99, 99))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabelKeempukan)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBoxKeempukan, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabelGaransi)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBoxGaransi, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnConfirm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(87, 87, 87))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -161,11 +209,64 @@ public class InputFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 5, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
+        // TODO add your handling code here:
+        if(!jTextFieldNama.getText().isEmpty()){
+            if(isDataUpdate == false){
+                    sql = "INSERT INTO dataSpringBed (nama,harga,bahan,keempukan,warna,lebar,fitur,garansi) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s')";
+                    sql = String.format(sql, 
+                            jTextFieldNama.getText(),
+                            jTextFieldHarga.getText(),
+                            jComboBoxBahan.getSelectedItem(),
+                            jComboBoxKeempukan.getSelectedItem(),
+                            jComboBoxWarna.getSelectedItem(),
+                            jComboBoxLebar.getSelectedItem(),
+                            jComboBoxFitur.getSelectedItem(),
+                            jComboBoxGaransi.getSelectedIndex());
+
+            } else if (isDataUpdate = true){
+                sql = "UPDATE dataSpringBed SET nama='%s',harga='%s',bahan='%s', keempukan='%s',warna='%s', lebar='%s', fitur='%s', garansi='%s' WHERE id='%s'";
+                sql = String.format(sql, 
+                        jTextFieldNama.getText(),
+                        jTextFieldHarga.getText(),
+                        jComboBoxBahan.getSelectedItem(),
+                        jComboBoxKeempukan.getSelectedItem(),
+                        jComboBoxWarna.getSelectedItem(),
+                        jComboBoxLebar.getSelectedItem(),
+                        jComboBoxFitur.getSelectedItem(),
+                        jComboBoxGaransi.getSelectedIndex(),
+                        idSpringBed);
+            }
+            try {
+                Connection cn = koneksi.getKoneksi();
+                pst = cn.prepareStatement(sql);
+                pst.execute();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(jPanel2, "Gagal membuat data baru : "+ex);
+            } finally {
+                try {
+                    pst.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } 
+        MainFrame main = new MainFrame();
+        main.setVisible(true);
+        this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(jPanel2, "Spring bed belum mempunyai nama");
+        }
+    }//GEN-LAST:event_btnConfirmActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -203,21 +304,24 @@ public class InputFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private Frame.CButton cButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
-    private javax.swing.JComboBox<String> jComboBox6;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel8;
+    private Frame.CButton btnCancel;
+    private Frame.CButton btnConfirm;
+    private javax.swing.JComboBox<String> jComboBoxBahan;
+    private javax.swing.JComboBox<String> jComboBoxFitur;
+    private javax.swing.JComboBox<String> jComboBoxGaransi;
+    private javax.swing.JComboBox<String> jComboBoxKeempukan;
+    private javax.swing.JComboBox<String> jComboBoxLebar;
+    private javax.swing.JComboBox<String> jComboBoxWarna;
+    private javax.swing.JLabel jLabelBahan;
+    private javax.swing.JLabel jLabelFitur;
+    private javax.swing.JLabel jLabelGaransi;
+    private javax.swing.JLabel jLabelHarga;
+    private javax.swing.JLabel jLabelKeempukan;
+    private javax.swing.JLabel jLabelLebar;
+    private javax.swing.JLabel jLabelNama;
+    private javax.swing.JLabel jLabelWarna;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextFieldHarga;
+    private javax.swing.JTextField jTextFieldNama;
     // End of variables declaration//GEN-END:variables
 }
