@@ -2,12 +2,9 @@ package Frame;
 
 import java.sql.*;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 /**
  *
  * @author Laden
@@ -26,15 +23,16 @@ public class InputFrame extends javax.swing.JFrame {
         initComponents();
     }
     
-    public InputFrame(String idKategori) {
-        initComponents();
-        this.idSpringBed = idKategori;
-    }
-    
     public InputFrame(boolean dataUpdate, String idSpringBed) {
-        initComponents();
-        this.isDataUpdate = dataUpdate;
-        this.idSpringBed = idSpringBed;
+        try {
+            initComponents();
+            this.isDataUpdate = dataUpdate;
+            this.idSpringBed = idSpringBed;
+            getDataUpdate();
+        } catch (ParseException ex) {
+            Logger.getLogger(InputFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -330,4 +328,32 @@ public class InputFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldHarga;
     private javax.swing.JTextField jTextFieldNama;
     // End of variables declaration//GEN-END:variables
+    private void getDataUpdate() throws ParseException {
+        sql = "SELECT * FROM dataSpringBed WHERE id='%s'";
+        sql = String.format(sql,this.idSpringBed);
+        try {
+            Connection cn = koneksi.getKoneksi();
+            pst = cn.prepareStatement(sql);
+            result = pst.executeQuery();
+            while(result.next()){
+                jTextFieldNama.setText(result.getString(2));
+                jTextFieldHarga.setText(result.getString(3));
+                jComboBoxBahan.setSelectedIndex(result.getInt(4));
+                jComboBoxKeempukan.setSelectedIndex(result.getInt(5));
+                jComboBoxWarna.setSelectedIndex(result.getInt(6));
+                jComboBoxLebar.setSelectedIndex(result.getInt(7));
+                jComboBoxFitur.setSelectedIndex(result.getInt(8));
+                jComboBoxGaransi.setSelectedIndex(result.getInt(9));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(InputFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                pst.close();
+                result.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } 
+    }
 }
