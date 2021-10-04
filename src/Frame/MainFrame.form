@@ -39,7 +39,7 @@
     <Container class="javax.swing.JPanel" name="jPanel2">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="99" green="ff" red="99" type="rgb"/>
+          <Color blue="ff" green="99" red="33" type="rgb"/>
         </Property>
       </Properties>
 
@@ -107,13 +107,13 @@
                   <Component id="jLabelMenu" min="-2" pref="31" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnInsert" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="btnUpdate" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="btnDelete" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="btnResult" min="-2" pref="49" max="-2" attributes="0"/>
-                  <EmptySpace pref="147" max="32767" attributes="0"/>
+                  <EmptySpace pref="132" max="32767" attributes="0"/>
                   <Component id="jLabelGaransi" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jTextFieldGaransi" min="-2" pref="27" max="-2" attributes="0"/>
@@ -242,31 +242,49 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelHarga">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="11" style="1"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="HARGA"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelBahan">
           <Properties>
-            <Property name="text" type="java.lang.String" value="BAHAN"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="11" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="KECOCOKAN BAHAN"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelKeempukan">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="11" style="1"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="KEEMPUKAN"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelWarna">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="11" style="1"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="WARNA"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelLebar">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="11" style="1"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="LEBAR"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelFiturTambah">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="11" style="1"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="FITUR TAMBAHAN"/>
           </Properties>
         </Component>
@@ -280,6 +298,9 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelGaransi">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="11" style="1"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="MEMILIKI GARANSI"/>
           </Properties>
         </Component>

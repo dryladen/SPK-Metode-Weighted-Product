@@ -62,7 +62,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel2.setBackground(new java.awt.Color(153, 255, 153));
+        jPanel2.setBackground(new java.awt.Color(51, 153, 255));
 
         pnlBedList.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "List Spring Bed", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Yu Gothic Medium", 1, 14))); // NOI18N
         pnlBedList.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -129,16 +129,22 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabelHarga.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelHarga.setText("HARGA");
 
-        jLabelBahan.setText("BAHAN");
+        jLabelBahan.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabelBahan.setText("KECOCOKAN BAHAN");
 
+        jLabelKeempukan.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelKeempukan.setText("KEEMPUKAN");
 
+        jLabelWarna.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelWarna.setText("WARNA");
 
+        jLabelLebar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelLebar.setText("LEBAR");
 
+        jLabelFiturTambah.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelFiturTambah.setText("FITUR TAMBAHAN");
 
         btnInsert.setText("INSERT");
@@ -148,6 +154,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabelGaransi.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelGaransi.setText("MEMILIKI GARANSI");
 
         jLabelMenu.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -206,13 +213,13 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jLabelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnInsert, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnResult, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
                 .addComponent(jLabelGaransi)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextFieldGaransi, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
